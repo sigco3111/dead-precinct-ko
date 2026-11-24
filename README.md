@@ -2,7 +2,7 @@
 
 PS1 스타일 레트로 서바이벌 호러 브라우저 게임 [DEAD PRECINCT](https://github.com/Bao5ye/dead-precinct)의 한국어 번역판입니다.
 
-![대표 이미지](screenshots/cover.jpg)
+![한글판 타이틀](screenshots-ko/title.png)
 
 ## 플레이
 
@@ -21,12 +21,14 @@ PS1 스타일 레트로 서바이벌 호러 브라우저 게임 [DEAD PRECINCT](
 
 플레이 타임은 약 10분: 중앙대로 → 경찰서 대홀(세이프룸) → 서쪽 사무실 → 동쪽 복도 → 무기고 → 지하 주차장 보스전.
 
-## 스크린샷
+## 스크린샷 (한글판 실제 실행 화면)
 
 | | | |
 |---|---|---|
-| ![](screenshots/street.jpg) | ![](screenshots/zombie-grab.jpg) | ![](screenshots/alarm-corridor.jpg) |
-| ![](screenshots/garage-boss.jpg) | ![](screenshots/characters.jpg) | ![](screenshots/portrait.jpg) |
+| ![](screenshots-ko/street.png) | ![](screenshots-ko/intro.png) | ![](screenshots-ko/inventory.png) |
+| ![](screenshots/zombie-grab.jpg) | ![](screenshots/garage-boss.jpg) | ![](screenshots/alarm-corridor.jpg) |
+
+아래 3장은 원작 캡처(게임 내용은 동일)입니다.
 
 ## 특징
 
