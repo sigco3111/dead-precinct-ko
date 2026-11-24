@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh"><head><meta charset="utf-8">
+<html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>亡城警署 DEAD PRECINCT</title>
+<title>죽은 도시의 경찰서 DEAD PRECINCT</title>
 <style>
 html,body{margin:0;height:100%;background:#000;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;font-family:sans-serif}
 #wrap{position:absolute;left:50%;transform:translateX(-50%)}
@@ -17,10 +17,10 @@ canvas{position:absolute;left:0;top:0;width:100%;height:100%;image-rendering:pix
 </style></head><body>
 <div id="wrap"><canvas id="g" width="320" height="240"></canvas><canvas id="h" width="640" height="480"></canvas><div id="scan"></div></div>
 <div id="pad"><div id="dp"></div><div id="ab">
-<div class="b" data-k="aim" data-tg="1" style="left:61px;top:0">R1<small>举枪</small></div>
-<div class="b" data-k="run" data-tg="1" style="left:0;top:61px">□<small>跑</small></div>
-<div class="b" data-k="menu" style="left:122px;top:61px">○<small>背包</small></div>
-<div class="b" data-k="act" style="left:61px;top:122px">✕<small>动作</small></div>
+<div class="b" data-k="aim" data-tg="1" style="left:61px;top:0">R1<small>조준</small></div>
+<div class="b" data-k="run" data-tg="1" style="left:0;top:61px">□<small>달리기</small></div>
+<div class="b" data-k="menu" style="left:122px;top:61px">○<small>가방</small></div>
+<div class="b" data-k="act" style="left:61px;top:122px">✕<small>액션</small></div>
 </div></div>
 <script>
 'use strict';
@@ -32,7 +32,7 @@ function fit(){const vw=innerWidth,vh=innerHeight,w=Math.min(vw,vh*4/3),h=w*.75,
 addEventListener('resize',fit);fit();
 const clamp=(v,a,b)=>v<a?a:v>b?b:v,adiff=(a,b)=>Math.atan2(Math.sin(b-a),Math.cos(b-a)),sm=x=>x*x*(3-2*x);
 
-/* ---------- GL: PS1风格着色器（顶点抖动/逐顶点光照/雾/抖色15bit） ---------- */
+/* ---------- GL: PS1 스타일 셰이더(버텍스 떨림/버텍스별 라이팅/안개/15비트 디더링) ---------- */
 function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return o}
 const pr=gl.createProgram();
 gl.attachShader(pr,sh(gl.VERTEX_SHADER,`attribute vec3 p,c,n;attribute float t;attribute vec2 uv;varying vec3 va;uniform mat4 vp;uniform vec2 fog;uniform float md;
@@ -68,7 +68,7 @@ const BG={"0_0": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUAAAADwCAIAAAD+
 if(BG)for(const k in BG){const im=new Image();im.onload=()=>{const t=gl.createTexture();gl.bindTexture(3553,t);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,1);gl.texImage2D(3553,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,im);
  gl.texParameteri(3553,10240,9728);gl.texParameteri(3553,10241,9728);gl.texParameteri(3553,10242,33071);gl.texParameteri(3553,10243,33071);BT[k]=t};im.src=BG[k]}
 let RS=[-99,-99,99,99],REC=null;const V=new Float32Array(1500000);let vn=0,vs=0;
-/* ---------- 角色：PS1式分段低多边形网格（放样建模）+ 代码绘制贴图 ---------- */
+/* ---------- 캐릭터: PS1식 분할 로우폴리 메시(로프트 모델링) + 코드로 그린 텍스처 ---------- */
 const AS=512,AC=document.createElement('canvas');AC.width=AC.height=AS;const g2=AC.getContext('2d');
 let sd=7,O=[0,0,0,0];const rr=()=>(sd=sd*16807%2147483647)/2147483647,cl=c=>typeof c=='string'?c:'rgb('+c.map(v=>clamp(v|0,0,255))+')',
  at=r=>O=r,F=(x,y,w,h,c)=>{g2.fillStyle=cl(c);g2.fillRect(O[0]+x,O[1]+y,w,h)},
@@ -86,7 +86,7 @@ const RG={hh:[0,0,128,64],hr:[0,64,128,64],ht:[128,0,128,128],hp:[256,0,128,40],
  zh:[0,128,128,64],zh2:[0,384,128,64],zt:[128,128,128,128],zt2:[128,384,128,128],zp:[256,152,128,40],zu:[256,192,64,48],zf:[320,192,64,48],zd:[384,192,32,32],zth:[0,192,64,64],zs:[64,192,64,64],zfo:[416,192,64,40],zn:[384,224,32,24],
  bh:[0,256,128,64],bt:[128,256,128,128],bc:[256,256,128,96],bu:[384,256,64,64],bf:[448,256,64,64],bd:[384,320,32,32],bth:[0,320,64,64],bs:[64,320,64,64],bfo:[416,320,64,32],bn:[288,416,32,24],
  cb:[256,352,128,64],ch:[384,352,64,64],cl:[448,352,64,32],cl2:[448,384,64,32],cm:[448,416,32,32],cbo:[480,416,32,32]};
-// —— 女警 ——
+// —— 여경 ——
 at(RG.hh);GR([238,190,158],[214,160,128]);SIDE(.3);F(0,0,22,64,[92,48,22]);F(106,0,22,64,[92,48,22]);EL(64,60,18,5,'rgba(0,0,0,.1)');
 EL(56,31,6,3,'rgba(80,30,20,.12)');EL(72,31,6,3,'rgba(80,30,20,.12)');LN([[50,28.5],[54,27.2],[59,27.8]],[78,40,20],1.3);LN([[69,27.8],[74,27.2],[78,28.5]],[78,40,20],1.3);
 for(const x of[56,72]){const o=x<64?.5:-.5;EL(x,34.6,3.8,1.7,[246,242,236]);EL(x+o,34.6,1.7,1.7,[96,60,36]);EL(x+o,34.6,.8,.9,[14,10,8]);F(x+o-.2,33.6,1,1,[255,255,255]);LN([[x-4.3,34.9],[x-2,32.8],[x+2,32.8],[x+4.3,34.2]],[38,20,14],1.1)}
@@ -109,7 +109,7 @@ at(RG.hd);F(0,0,32,32,[28,28,30]);SH(0,0,32,4,-.1);for(let x=4;x<32;x+=6)LN([[x,
 at(RG.hth);F(0,0,64,64,[34,40,70]);SIDE(.25);LN([[16,0],[16,64]],[22,26,48],1);LN([[48,0],[48,64]],[22,26,48],1);for(const x of[16,48])F(x-5,24,10,12,[30,36,64]);LN([[22,40],[40,44]],'rgba(0,0,0,.2)',1);NZ(.05);
 at(RG.hs);F(0,0,64,64,[34,40,70]);F(0,24,64,40,[30,28,28]);SH(0,24,64,2,-.15);for(let y=30;y<56;y+=5){LN([[28,y],[36,y+3]],[92,90,86],1);LN([[36,y],[28,y+3]],[92,90,86],1)}SIDE(.25);NZ(.05);
 at(RG.hfo);F(0,0,64,40,[28,26,26]);F(22,0,20,40,[12,12,12]);SH(0,0,64,3,-.12);NZ(.06);
-// —— 丧尸（两种）——
+// —— 좀비(두 종류) ——
 const ZS=[146,156,124];
 for(const[k,v]of[[RG.zh,0],[RG.zh2,1]]){at(k);GR(ZS,[118,128,102]);SIDE(.35);BL(10,[100,110,92],4);BL(6,[122,92,112],3);STR(40,'rgba(30,26,22,.7)',0,14);F(0,0,128,4,[50,45,40]);
  for(const x of[56,72])EL(x,34.5,5,3.6,[46,30,36]);EL(56,34.5,2.2,1.3,[214,212,182]);EL(56,34.5,.6,.6,[120,120,110]);
@@ -130,7 +130,7 @@ at(RG.zth);F(0,0,64,64,[58,58,66]);SIDE(.3);BL(5,[100,14,14],4);F(26,44,14,10,[3
 at(RG.zs);F(0,0,64,64,[58,58,66]);F(0,44,64,20,[64,48,36]);BL(4,[95,14,14],3);NZ(.08);
 at(RG.zfo);F(0,0,64,40,[66,50,38]);F(22,0,20,40,[30,24,20]);NZ(.08);
 at(RG.zn);GR(ZS,[120,130,104]);BL(2,[110,10,10],2);
-// —— 镇暴者 ——
+// —— 진압자 ——
 const BS=[150,158,160],CO=[52,60,56];
 at(RG.bh);GR(BS,[120,128,130]);SIDE(.35);BL(8,[125,132,135],4);EL(64,29,24,5,[104,110,112]);SH(40,30,48,8,.45);
 for(let x=40;x<92;x++){const y=6+(x-40)*.27;F(x,y,1,1,[96,45,55]);if(x%4==0)F(x,y-2,1,4,[72,40,45])}EL(32,38,4,6,[120,126,128]);EL(96,38,4,6,[120,126,128]);
@@ -144,7 +144,7 @@ at(RG.bd);GR(BS,[110,116,118]);for(let x=4;x<32;x+=7)EL(x,24,2,1.5,[100,104,106]
 at(RG.bth);F(0,0,64,64,[42,44,48]);SIDE(.3);NZ(.05);
 at(RG.bs);F(0,0,64,64,[42,44,48]);F(0,18,64,46,[22,20,20]);for(let y=26;y<60;y+=9){F(0,y,64,3,[50,46,40]);F(28,y,6,3,[160,150,120])}NZ(.05);
 at(RG.bfo);F(0,0,64,32,[22,20,20]);F(22,0,20,32,[10,10,10]);NZ(.06);at(RG.bn);GR(BS,[120,128,130]);
-// —— 爬行者（原创：无眼、剥皮、竖裂颚、蜘蛛式高膝）——
+// —— 크롤러(오리지널: 눈 없음, 벗겨진 가죽, 세로로 갈라진 턱, 거미식 높은 무릎) ——
 at(RG.cb);GR([140,40,38],[92,24,24]);{const g=g2.createLinearGradient(O[0],0,O[0]+128,0);g.addColorStop(0,'rgba(40,5,5,.75)');g.addColorStop(.35,'rgba(0,0,0,0)');g.addColorStop(.65,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(40,5,5,.75)');g2.fillStyle=g;g2.fillRect(O[0],O[1],128,64)}
 for(let i=0;i<40;i++){const x=rr()*128,y=rr()*64;LN([[x,y],[x+2,y+6]],'rgba(70,10,10,.6)',.8)}for(let y=14;y<44;y+=5){LN([[0,y],[26,y+1]],'rgba(200,170,150,.55)',1);LN([[102,y+1],[128,y]],'rgba(200,170,150,.55)',1)}BL(4,[230,200,110],2);BL(5,[90,10,12],3);NZ(.1);
 at(RG.ch);GR([204,192,172],[150,120,110]);F(26,8,12,56,[50,6,8]);for(let y=10;y<60;y+=3){F(25,y,3,2,[236,228,205]);F(36,y+1,3,2,[236,228,205])}LN([[8,10],[14,30],[10,50]],[80,50,45],1);LN([[56,10],[50,30],[54,50]],[80,50,45],1);BL(4,[120,30,30],3);NZ(.08);
@@ -155,7 +155,7 @@ const ATX=gl.createTexture();gl.activeTexture(gl.TEXTURE1);gl.bindTexture(3553,A
 try{gl.texImage2D(3553,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,AC)}catch(e){}[[10240,9728],[10241,9728],[10242,33071],[10243,33071]].forEach(p=>gl.texParameteri(3553,p[0],p[1]));
 gl.activeTexture(gl.TEXTURE0);gl.uniform1i(gl.getUniformLocation(pr,'atl'),1);
 const UVF=()=>Q0;
-// 放样：R=[y,rx,前rz,后rz,z偏移,鼻/颏凸起]，自上而下；u绕一周，v沿长度
+// 로프트: R=[y,rx,앞rz,뒤rz,z오프셋,코/턱 돌출], 위에서 아래로; u는 한 바퀴, v는 길이 방향
 function loft(R,n,rc,o={}){const P=[],N=[],U=[],I=[],m=R.length,y0=R[0][0],y1=R[m-1][0],uo=o.uo||0;
  const pt=(r,j)=>{const a=(j/n-.5+uo)*2*PI,s=Math.sin(a),c=Math.cos(a);let A=Math.atan2(s,c);return[r[1]*s,r[0],(c>0?r[2]:r[3])*c+(r[4]||0)+(r[5]?r[5]*Math.exp(-A*A/.06):0)]};
  const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
@@ -238,7 +238,7 @@ function draw3(eye,tg,l1,c1,l2,c2,amb,fog,fc,fov=1,tex,bgk=1,bgt=[1,1,1]){gl.vie
  gl.bufferData(gl.ARRAY_BUFFER,V.subarray(0,vn*12),gl.DYNAMIC_DRAW);gl.bindTexture(3553,tex);gl.uniform1f(u.bgk,bgk);gl.uniform3fv(u.bgt,bgt);gl.uniform1f(u.md,1);gl.disable(gl.DEPTH_TEST);gl.drawArrays(4,vd,6);
  gl.enable(gl.DEPTH_TEST);gl.uniform1f(u.md,0);gl.colorMask(false,false,false,false);gl.drawArrays(4,0,vs);gl.colorMask(true,true,true,true);gl.drawArrays(4,vs,vd-vs)}
 
-/* ---------- 音频：全部实时合成（混响/人声共振峰/程序化配乐） ---------- */
+/* ---------- 오디오: 전부 실시간 합성(리버브/보컬 포먼트/프로시저럴 음악) ---------- */
 let ac,mg,rv,mb,nb,trk='',nxt=0,stp=0,pad=null,ambN=null,evT=0,hbT=0,shk=0;
 const now=()=>ac.currentTime,mf=m=>440*Math.pow(2,(m-69)/12);
 function initAudio(c,off){ac=c;const cp=c.createDynamicsCompressor();cp.threshold.value=-14;cp.ratio.value=4;cp.connect(c.destination);mg=c.createGain();mg.gain.value=1;mg.connect(cp);
@@ -313,7 +313,7 @@ function tick(){if(!ac||ac.state!='running')return;const t=now();
     if(k=='scream')sfx.scream(.18);else if(k=='moan')sfx.moan(.3);else if(k)sfx[k]()}evT=t+7+rnd()*10}
   if(pl&&pl.hp<34&&pl.hp>0&&t>hbT){hbT=t+.85;sfx.heart()}}}
 
-/* ---------- 输入：键盘 + 触屏 ---------- */
+/* ---------- 입력: 키보드 + 터치스크린 ---------- */
 const K={up:0,down:0,left:0,right:0,run:0,aim:0,act:0,menu:0},Pk={};
 const KM={ArrowUp:'up',KeyW:'up',ArrowDown:'down',KeyS:'down',ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ShiftLeft:'run',ShiftRight:'run',Space:'aim',KeyK:'aim',KeyJ:'act',Enter:'act',KeyX:'act',KeyI:'menu',Tab:'menu',Escape:'menu'};
 addEventListener('keydown',e=>{const k=KM[e.code];if(!k)return;e.preventDefault();au();if(!K[k])Pk[k]=1;K[k]=1});
@@ -327,9 +327,9 @@ document.querySelectorAll('.b').forEach(b=>{const k=b.dataset.k,tg=b.dataset.tg;
  b.addEventListener('touchstart',e=>{e.preventDefault();au();if(tg){K[k]=K[k]?0:1;b.classList.toggle('on',!!K[k])}else{K[k]=1;Pk[k]=1}},{passive:false});
  b.addEventListener('touchend',e=>{e.preventDefault();if(!tg)K[k]=0},{passive:false})});
 
-/* ---------- 数据 ---------- */
-const WP=[{n:'手枪 P9',d:22,cd:.42,ang:.1,r:14},{n:'霰弹枪 R870',d:120,cd:1.05,ang:.38,r:7,multi:1},{n:'突击步枪 AR4',d:28,cd:.15,ang:.09,r:16,auto:1}];
-const IT={ammo:['手枪子弹 ×15',[.85,.7,.2]],shells:['霰弹 ×6',[.8,.2,.1]],rammo:['步枪弹匣 ×30',[.3,.5,.3]],herb:['绿色草药',[.1,.75,.2]],shotgun:['霰弹枪',[.2,.2,.24]],rifle:['突击步枪',[.2,.2,.24]],card:['蓝色门卡',[.2,.4,1]],gkey:['车库钥匙',[.9,.8,.3]]};
+/* ---------- 데이터 ---------- */
+const WP=[{n:'권총 P9',d:22,cd:.42,ang:.1,r:14},{n:'산탄총 R870',d:120,cd:1.05,ang:.38,r:7,multi:1},{n:'돌격소총 AR4',d:28,cd:.15,ang:.09,r:16,auto:1}];
+const IT={ammo:['권총 탄약 ×15',[.85,.7,.2]],shells:['산탄 ×6',[.8,.2,.1]],rammo:['소총 탄창 ×30',[.3,.5,.3]],herb:['녹색 약초',[.1,.75,.2]],shotgun:['산탄총',[.2,.2,.24]],rifle:['돌격소총',[.2,.2,.24]],card:['파란색 카드키',[.2,.4,1]],gkey:['차고 열쇠',[.9,.8,.3]]};
 let rooms,R,pl,own,ammo,herbs,keys,kills,time,bossDead,used,parts=[],state='title',st=0,tm=0,mq,dr,isel=0,rn=0,mt=0;
 const zb=(x,z,s='walk')=>({k:'z',x,z,a:rnd()*6,hp:100,st:s,t:0,ph:rnd()*6,sp:.6+rnd()*.35,r:.3,fall:s=='sleep'?1:0,
  v:rnd()*2|0});
@@ -347,7 +347,7 @@ function mkRooms(){
  const plant=(x,z)=>[C(x,z,.4,.4),D(x,.25,z,.36,.5,.36,[.5,.3,.2],1,1.3),D(x,.95,z,.7,.9,.7,[.1,.35,.12],1,.25)];
  const lamp=(x,y,z,ax)=>D(x,y,z,ax?1:.3,.08,ax?.3:1,[1,1,.9],2);
  return[
- {n:'中央大街',ev:1,xl:[[9,3.9,6.5,1,.85,.6,600],[9,14,4,.5,.6,1,3000],[17,3.2,4,.2,.5,1,150]],w:18,d:8,h:5,fm:6,wm:3,fl:[.24,.24,.27],wl:[.4,.24,.2],fogc:[.03,.03,.07],fog:[5,24],amb:[.2,.21,.32],lp:[6,1.6,5.6],lc:[3,1.4,.4],fire:[6,1.3,5.6],rain:1,
+ {n:'중앙대로',ev:1,xl:[[9,3.9,6.5,1,.85,.6,600],[9,14,4,.5,.6,1,3000],[17,3.2,4,.2,.5,1,150]],w:18,d:8,h:5,fm:6,wm:3,fl:[.24,.24,.27],wl:[.4,.24,.2],fogc:[.03,.03,.07],fog:[5,24],amb:[.2,.21,.32],lp:[6,1.6,5.6],lc:[3,1.4,.4],fire:[6,1.3,5.6],rain:1,
   cams:[{p:[.6,3.4,.6],ax:'x',lo:-9,hi:9},{p:[17.2,3.6,7.4]}],
   props:[...car(6,5.6,1,[.3,.08,.06]),...car(12.5,1.9,1,[.85,.85,.9],1),D(9,.06,.5,18,.12,1,pv,6),D(9,.06,7.5,18,.12,1,pv,6),...[1.5,4.5,7.5,10.5,13.5].map(x=>D(x,.012,4,1.4,.02,.14,[.6,.6,.5])),
    ...[2,5,8,11,14].flatMap((x,i)=>[...Wn(x,3.4,8,1,i%2?lit:ngt),...Wn(x+1,3.4,0,1,i==3?lit:ngt)]),
@@ -356,7 +356,7 @@ function mkRooms(){
    P(15.5,6.6,1,1,.9,wood,5),D(15.3,1.15,6.6,.5,.5,.5,wood,5),P(16.6,1.4,.25,.25,.6,[.7,.1,.1]),D(1,.3,7.3,.6,.5,.6,blk,1,.5),D(1.6,.25,7.5,.5,.4,.5,blk,1,.5),
    P(17.6,2.6,.4,.4,3.3,mb),P(17.6,5.4,.4,.4,3.3,mb),D(17.6,3.5,4,.5,.45,3.4,mb),D(17.5,.08,4,1,.16,2.4,mb),D(17.33,3.5,4,.05,.25,1.8,[.2,.5,1],2),D(7.5,.012,3.2,1.5,.02,1,bld)],
   doors:[{x:18,z:4,s:'E',to:1,tx:6,tz:1.2,ta:0}],items:[it(11,6.6,'ammo')],en:[zb(9,3.5),zb(13,5),zb(15.5,3.4)],sp:[]},
- {n:'警署大厅',ev:1.1,xl:[[6,2.5,1,1,.8,.6,200],[3,2.5,9.3,.4,.5,1,150],[9,2.5,9.3,.4,.5,1,150]],w:12,d:10,h:4,ceil:1,fm:4,wm:8,fl:[.6,.57,.5],wl:[.5,.42,.3],fogc:[.02,.02,.02],fog:[7,26],amb:[.2,.17,.14],lp:[6,3.1,5],lc:[2.6,2,1.4],
+ {n:'경찰서 대홀',ev:1.1,xl:[[6,2.5,1,1,.8,.6,200],[3,2.5,9.3,.4,.5,1,150],[9,2.5,9.3,.4,.5,1,150]],w:12,d:10,h:4,ceil:1,fm:4,wm:8,fl:[.6,.57,.5],wl:[.5,.42,.3],fogc:[.02,.02,.02],fog:[7,26],amb:[.2,.17,.14],lp:[6,3.1,5],lc:[2.6,2,1.4],
   cams:[{p:[11.2,3.4,.9],ax:'z',lo:-9,hi:5},{p:[.9,3.4,9.1]}],
   props:[C(6,5,3.2,1.1),D(6,.55,5,3.2,1.1,1.1,wood,5),D(6,1.13,5,3.4,.06,1.3,dw,5),D(6.8,1.3,5,.4,.3,.34,[.6,.58,.5]),D(6.8,1.31,4.82,.3,.2,.02,scr,2),D(5,1.22,5,.2,.12,.2,[.3,.9,.4],2),
    ...pil(3,3,4),...pil(9,3,4),...pil(3,7.5,4),...pil(9,7.5,4),P(1,2.5,.6,2,.45,dw,5),D(.75,.8,2.5,.1,.5,2,dw,5),P(11,2.5,.6,2,.45,dw,5),D(11.25,.8,2.5,.1,.5,2,dw,5),
@@ -365,37 +365,37 @@ function mkRooms(){
    D(.03,1.7,3.5,.05,1,1.6,[.3,.4,.25],9),D(.06,1.8,3.2,.02,.3,.25,wh),D(.06,1.6,3.8,.02,.3,.25,wh),D(6,3.75,5,.06,.5,.06,dm),D(6,3.4,5,1.1,.25,1.1,[1,.85,.5],2,.4)],
   doors:[{x:6,z:0,s:'S',to:0,tx:16.6,tz:4,ta:-PI/2},{x:0,z:7,s:'W',to:2,tx:8.8,tz:2,ta:-PI/2},{x:12,z:5,s:'E',to:3,tx:1.2,tz:2,ta:PI/2}],
   items:[it(1.4,8.6,'herb'),it(10.6,8.6,'ammo')],en:[],
-  sp:[{x:6,z:4,r:1.3,txt:'【值班日志】\n「武器库的门卡被陈队带去了西侧办公室。车库钥匙锁在武器库里。」\n「如果有人看到这页——别靠近东走廊的窗户。那东西会爬墙。」'},{x:6,z:8,r:1.2,txt:'一尊大理石胸像。\n底座上刻着：「守护市民，至死方休」。'}]},
- {n:'西侧办公室',ev:.9,pw:500,xl:[[3,2.8,4,.8,1,.9,300],[7,2.8,4,.8,1,.9,300]],w:10,d:8,h:3,ceil:1,fm:5,wm:8,fl:[.4,.3,.2],wl:[.4,.45,.4],fogc:[0,.01,.01],fog:[6,20],amb:[.1,.12,.11],lp:[5,2.6,4],lc:[1.1,1.6,1.3],flick:.07,
+  sp:[{x:6,z:4,r:1.3,txt:'【근무 일지】\n「무기고의 카드키는 천 대장이 서쪽 사무실로 가져갔다. 차고 열쇠는 무기고 안에 잠겨 있다.」\n「이 페이지를 보는 사람이 있다면——동쪽 복도의 창문에 가까이 가지 마라. 그것은 벽을 타고 올라온다.」'},{x:6,z:8,r:1.2,txt:'대리석 흉상이다.\n받침대에 새겨져 있다: 「시민을 지켜라, 죽음에 이르기까지」.'}]},
+ {n:'서쪽 사무실',ev:.9,pw:500,xl:[[3,2.8,4,.8,1,.9,300],[7,2.8,4,.8,1,.9,300]],w:10,d:8,h:3,ceil:1,fm:5,wm:8,fl:[.4,.3,.2],wl:[.4,.45,.4],fogc:[0,.01,.01],fog:[6,20],amb:[.1,.12,.11],lp:[5,2.6,4],lc:[1.1,1.6,1.3],flick:.07,
   cams:[{p:[9.4,2.7,.6]}],
   props:[...desk(2.5,2.5,1),...desk(5.5,2.5),...desk(2.5,5.5),...desk(5.5,5.5,1),P(9.6,6,.6,3,2,dm,7),P(1.2,7.6,2,.6,1.4,dm,7),lamp(3,2.95,4,1),lamp(7,2.95,4,1),...Wn(0,1.8,4,0,ngt),
    D(5,1.7,7.98,2.5,1.2,.04,dm),D(5,1.7,7.96,2.4,1.1,.04,wh),P(8.5,7.6,.4,.4,1.1,[.7,.75,.8]),D(8.5,1.3,7.6,.3,.4,.3,[.3,.5,.8],2),
    D(4,.011,3.8,1.2,.02,1.4,bld),D(7,.012,4.5,.25,.01,.32,wh),D(3.6,.012,1.2,.25,.01,.32,wh),D(7.6,.012,1.6,.3,.01,.22,wh)],
   doors:[{x:10,z:2,s:'E',to:1,tx:1.2,tz:7,ta:PI/2}],items:[it(8.7,6,'shotgun'),it(4,6.9,'card'),it(8.6,.8,'shells')],en:[zb(4,4,'sleep'),zb(7.5,6.8),zb(1,4.2)],sp:[]},
- {n:'东走廊',ev:.8,pw:400,xl:[[2,2.8,11,.7,.75,1,300],[3.5,1.8,3,.3,.4,1,80],[3.5,1.8,6,.3,.4,1,80],[3.5,1.8,12.5,.3,.4,1,80]],w:4,d:16,h:3,ceil:1,fm:4,wm:8,fl:[.35,.33,.33],wl:[.36,.36,.44],fogc:[0,0,.02],fog:[5,18],amb:[.07,.08,.13],lp:[2,2.6,5],lc:[1.4,1.4,1.8],flick:.1,
+ {n:'동쪽 복도',ev:.8,pw:400,xl:[[2,2.8,11,.7,.75,1,300],[3.5,1.8,3,.3,.4,1,80],[3.5,1.8,6,.3,.4,1,80],[3.5,1.8,12.5,.3,.4,1,80]],w:4,d:16,h:3,ceil:1,fm:4,wm:8,fl:[.35,.33,.33],wl:[.36,.36,.44],fogc:[0,0,.02],fog:[5,18],amb:[.07,.08,.13],lp:[2,2.6,5],lc:[1.4,1.4,1.8],flick:.1,
   cams:[{p:[3.6,2.7,.4],ax:'z',lo:-9,hi:8},{p:[.4,2.7,15.6]}],
   props:[P(.5,6,.6,1.2,.9,wood,5),P(3.5,13,.7,.7,1.2,dm,7),...Wn(4,1.8,3,0,ngt),...Wn(4,1.8,6,0,ngt),...Wn(4,1.8,12.5,0,[.2,.25,.45]),lamp(2,2.95,5),lamp(2,2.95,11),
    D(.25,2.75,8,.12,.12,16,dm),D(.5,2.8,8,.08,.08,16,[.4,.2,.15]),D(2,.011,10.5,.8,.02,3,bld),D(.03,1.7,10,.05,.7,.5,[.6,.5,.3]),D(.03,1.6,12,.05,.5,.7,wh),P(.35,4,.5,1.4,.45,dw,5),D(3.8,.012,12.5,.4,.01,.8,[.5,.6,.7])],
-  doors:[{x:0,z:2,s:'W',to:1,tx:10.8,tz:5,ta:-PI/2},{x:4,z:9,s:'E',to:4,tx:1.2,tz:3,ta:PI/2,key:'card',c:[.35,.38,.42],lk:'电子锁亮着红灯。\n需要「蓝色门卡」。'},
-   {x:2,z:16,s:'N',to:5,tx:8,tz:1.2,ta:0,key:'gkey',c:[.35,.1,.08],lk:'厚重的铁门，通往地下车库。\n需要「车库钥匙」。'}],
+  doors:[{x:0,z:2,s:'W',to:1,tx:10.8,tz:5,ta:-PI/2},{x:4,z:9,s:'E',to:4,tx:1.2,tz:3,ta:PI/2,key:'card',c:[.35,.38,.42],lk:'전자 잠금장치에 빨간불이 켜져 있다.\n「파란색 카드키」가 필요하다.'},
+   {x:2,z:16,s:'N',to:5,tx:8,tz:1.2,ta:0,key:'gkey',c:[.35,.1,.08],lk:'지하 주차장으로 이어지는 무거운 철문이다.\n「차고 열쇠」가 필요하다.'}],
   items:[it(3.3,1,'ammo'),it(.8,15,'herb')],en:[zb(2,7.8),cr(2,14.5,'hide')],sp:[],
   trig(r){if(!r.done&&pl.z>6.5){r.done=1;r.en.find(e=>e.st=='hide').st='stalk';sfx.glass();sfx.screech();sfx.sting()}}},
- {n:'武器库',ev:.95,pw:600,xl:[],w:7,d:6,h:3,ceil:1,fm:6,wm:7,fl:[.3,.31,.33],wl:[.34,.36,.34],fogc:[0,0,0],fog:[5,16],amb:[.1,.1,.1],lp:[3.5,2.6,3],lc:[1.8,1.6,1.2],
+ {n:'무기고',ev:.95,pw:600,xl:[],w:7,d:6,h:3,ceil:1,fm:6,wm:7,fl:[.3,.31,.33],wl:[.34,.36,.34],fogc:[0,0,0],fog:[5,16],amb:[.1,.1,.1],lp:[3.5,2.6,3],lc:[1.8,1.6,1.2],
   cams:[{p:[.5,2.7,5.5]}],
   props:[P(3.5,5.65,5,.6,1.9,dm,7),P(6.65,2.5,.6,3,1.9,dm,7),C(3.5,2.6,1.6,.9),D(3.5,.78,2.6,1.6,.06,.9,mt,7),D(2.8,.38,2.6,.08,.76,.8,dm),D(4.2,.38,2.6,.08,.76,.8,dm),lamp(3.5,2.95,3,1),
    D(2,1.2,5.3,.5,.25,.3,[.3,.4,.2]),D(3,1.2,5.3,.4,.2,.3,[.6,.5,.2]),D(4.5,1.6,5.3,.6,.25,.3,[.3,.4,.2]),D(5.2,.7,5.3,.5,.3,.3,[.5,.2,.15]),D(6.35,1.4,2,.3,.1,.9,blk),D(6.35,1.4,3.2,.3,.1,.9,blk),D(6.35,.9,2.6,.3,.25,.5,[.3,.4,.2]),
    D(1.5,.3,.5,.9,.6,.6,[.3,.36,.25],7),D(3.4,.85,2.6,.3,.08,.2,[.6,.5,.2])],
   doors:[{x:0,z:3,s:'W',to:3,tx:2.8,tz:9,ta:-PI/2,c:[.35,.38,.42]}],
   items:[it(3.5,3.7,'rifle'),it(5.5,4.6,'rammo'),it(1,5,'shells'),it(1,1.5,'herb'),it(5.6,.8,'gkey')],en:[cr(5.6,4,'rest')],sp:[]},
- {n:'地下车库',ev:.8,pw:700,xl:[[3,3.2,2,.9,.9,1,250],[13,3.2,10,.9,.9,1,250],[8,3.1,11.5,.2,1,.4,60]],w:16,d:12,h:3.5,ceil:1,fm:6,wm:6,fl:[.33,.33,.33],wl:[.38,.38,.38],fogc:[.03,0,0],fog:[6,22],amb:[.09,.08,.09],lp:[8,3,6],lc:[2.8,.7,.6],pulse:1,
+ {n:'지하 주차장',ev:.8,pw:700,xl:[[3,3.2,2,.9,.9,1,250],[13,3.2,10,.9,.9,1,250],[8,3.1,11.5,.2,1,.4,60]],w:16,d:12,h:3.5,ceil:1,fm:6,wm:6,fl:[.33,.33,.33],wl:[.38,.38,.38],fogc:[.03,0,0],fog:[6,22],amb:[.09,.08,.09],lp:[8,3,6],lc:[2.8,.7,.6],pulse:1,
   cams:[{p:[.6,3,.6],ax:'x',lo:-9,hi:8},{p:[15.4,3,.6]}],
   props:[...[[4,4],[12,4],[4,8],[12,8]].flatMap(([x,z])=>[P(x,z,.7,.7,3.5,mb,6),D(x,.9,z,.74,.35,.74,[.8,.7,.1])]),...car(1.6,9.8,0,[.12,.22,.45]),...car(15,3.5,0,[.4,.4,.38]),...car(13.5,10.6,1,[.85,.85,.9],1),
    D(8,1.6,11.96,5,3.2,.08,[.4,.38,.3],7),D(8,3.3,11.85,.8,.25,.05,[.2,1,.4],2),...[3,6,10].map(x=>D(x,.012,10.3,.1,.02,3.2,wh)),...[10,13].map(x=>D(x,.012,2,.1,.02,3.2,wh)),
    D(8,3.35,6,.3,.2,.3,[1,.1,.1],2),D(8,3.2,3,16,.15,.15,dm),D(2,3.2,6,.2,.2,12,[.4,.2,.15]),P(6,.5,.5,.5,.9,[.2,.3,.5],7),P(6.6,.5,.5,.5,.9,[.5,.2,.1],7),D(9,.012,7,1.6,.02,1.2,[.08,.08,.1])],
   doors:[{x:8,z:0,s:'S',to:3,tx:2,tz:14.8,ta:PI,c:[.35,.1,.08]}],
   items:[it(1,1,'herb'),it(15,1,'herb'),it(15,6.2,'rammo'),it(1,6,'ammo')],en:[{k:'b',x:8,z:9.5,a:PI,hp:1600,st:'walk',t:0,ph:0,r:.55,fall:0,acc:0}],
-  sp:[{x:13.5,z:9.4,r:1.6,f(){bossDead?(state='end',st=0):msg('警车的钥匙还插着。\n但那个怪物不会让你发动引擎！')}}],
-  on(){R.bo=2.6;sfx.power();setTimeout(()=>{if(R!=rooms[5]||state!='play')return;sfx.roar();sfx.sting();music('boss');msg('……灯灭了又亮起。\n有什么巨大的东西，正从黑暗中走来。')},2500)}}]}
+  sp:[{x:13.5,z:9.4,r:1.6,f(){bossDead?(state='end',st=0):msg('경찰차의 열쇠는 꽂혀 있다.\n하지만 그 괴물이 시동을 걸게 두지 않을 것이다!')}}],
+  on(){R.bo=2.6;sfx.power();setTimeout(()=>{if(R!=rooms[5]||state!='play')return;sfx.roar();sfx.sting();music('boss');msg('……불이 꺼졌다가 다시 켜진다.\n거대한 무언가가 어둠 속에서 다가오고 있다.')},2500)}}]}
 
 function build(r){vn=0;REC=r.bx=[];for(const c of r.cams)if(!c.t)c.t=[c.p[0]+(c.p[0]<r.w/2?1:-1),c.p[1]-.85,c.p[2]+(c.p[2]<r.d/2?1:-1)];const h=r.h,fm=r.fm||1,wm=r.wm||1,c=r.wl;
  for(let x=0;x<r.w;x++)for(let z=0;z<r.d;z++){quad([x,0,z],[x+1,0,z],[x+1,0,z+1],[x,0,z+1],[0,1,0],r.fl,fm);if(r.ceil)quad([x,h,z],[x+1,h,z],[x+1,h,z+1],[x,h,z+1],[0,-1,0],[.3,.29,.27],6)}
@@ -413,7 +413,7 @@ function enter(i,x,z,a){R=rooms[i];pl.x=x;pl.z=z;pl.a=a;parts=[];build(R);rn=2.5
  if(i==1&&keys.card&&!R.s2){R.s2=1;setTimeout(()=>{if(R==rooms[1]){sfx.scream(.35);sfx.bang();R.fl=1.4}},1600)}
  if(R.on&&!R.seen){R.seen=1;R.on()}else R.seen=1}
 
-/* ---------- 模型 ---------- */
+/* ---------- 모델 ---------- */
 function scene(){vn=vs;const r=R;
  for(const i of r.items){const M=X(T(i.x,.3+Math.sin(tm*3)*.04,i.z),RY(tm*1.5)),big=i.k=='shotgun'||i.k=='rifle';box(M,0,0,0,big?.7:.22,big?.1:.2,.14,IT[i.k][1]);if(Math.sin(tm*5+i.x)>.5)box(M,0,.3,0,.05,.05,.05,[1,1,1],2)}
  for(const b of r.dec||[])box(I0,b.x,.013,b.z,b.s,.004,b.s*.8,[.2,0,0],2);
@@ -431,7 +431,7 @@ function view(){const r=R;RS=[0,0,r.w,r.d];scene();const cam=r.cams.find(c=>!c.a
  if(r.alarm){const q=.55+.45*Math.sin(tm*5);bt=[1.15,.35+.1*q,.32+.1*q];f*=.6+.4*q;lc=[2.2,.3,.25]}
  draw3(cam.p,cam.t,r.lp,lc.map(v=>v*f),[pl.x+Math.sin(pl.a),1.5,pl.z+Math.cos(pl.a)],pl.flash>0?[5,4,2]:[.8,.75,.65].map(v=>v*Math.max(f,.25)),r.amb.map(v=>v*Math.max(f,.3)),tex?[r.fog[0]*2,r.fog[1]*2.5]:r.fog,r.fogc,1.3,tex,(r.fire?1:.72+.28*f)+(pl.flash>0?.3:0),bt)}
 
-/* ---------- 逻辑 ---------- */
+/* ---------- 로직 ---------- */
 function mv(e,dx,dz,r){e.x=clamp(e.x+dx,r,R.w-r);e.z=clamp(e.z+dz,r,R.d-r);
  for(const b of R.col){const cx=clamp(e.x,b[0],b[2]),cz=clamp(e.z,b[1],b[3]),ox=e.x-cx,oz=e.z-cz,d2=ox*ox+oz*oz;if(d2>=r*r)continue;
   if(d2>1e-8){const d=Math.sqrt(d2);e.x=cx+ox/d*r;e.z=cz+oz/d*r}
@@ -443,7 +443,7 @@ function hurt(d,e,k){if(state!='play'||pl.hp<=0||(pl.inv>0&&k!='bite'))return;pl
  if(pl.hp<=0){pl.hp=0;pl.grab=null;state='dead';st=0;sfx.scream();sfx.sting(.8);music('')}else sfx.hurt(k=='bite')}
 function hitE(e,d,k){e.hp-=d;const s=Math.sin(pl.a),c=Math.cos(pl.a);if(e.k!='b')mv(e,s*k,c*k,e.r);
  for(let i=0;i<6;i++)parts.push({x:e.x,y:e.k=='c'?.4:e.k=='b'?1.8:1.2,z:e.z,vx:(rnd()-.5)*2+s,vy:rnd()*2.5,vz:(rnd()-.5)*2+c,t:.6});
- if(e.hp<=0){e.st='dead';kills++;sfx.die(e);if(e.k=='b'){bossDead=1;setTimeout(()=>{if(state=='play')msg('「镇暴者」终于倒下了。\n警车的钥匙还插着——离开这座城市！')},1800)}}
+ if(e.hp<=0){e.st='dead';kills++;sfx.die(e);if(e.k=='b'){bossDead=1;setTimeout(()=>{if(state=='play')msg('「진압자」가 마침내 쓰러졌다.\n경찰차의 열쇠는 꽂혀 있다——이 도시를 떠나라!')},1800)}}
  else if(e.k=='z'){if(e.st=='sleep'){e.st='rise';e.t=1.1}else if(e.st!='rise'){e.st='stag';e.t=.28}}
  else if(e.k=='c'){if(e.st!='leap'){e.st='stag';e.t=.2}}
  else{e.acc+=d;if(e.acc>380&&e.st!='kneel'){e.acc=0;e.st='kneel';e.t=1.5;sfx.roar()}}}
@@ -475,9 +475,9 @@ function upE(e,dt){const dx=pl.x-e.x,dz=pl.z-e.z,d=Math.hypot(dx,dz),ta=Math.ata
 function interact(){const near=(o,r)=>Math.hypot(o.x-pl.x,o.z-pl.z)<r;
  const i=R.items.find(o=>near(o,1.1));
  if(i){R.items.splice(R.items.indexOf(i),1);sfx.pick();let ex='';
-  ({ammo(){ammo[0]+=15},shells(){ammo[1]+=6},rammo(){ammo[2]+=30},herb(){herbs++},shotgun(){own[1]=1;ammo[1]+=5;pl.wp=1;ex='\n（已装备。近距离威力巨大）'},rifle(){own[2]=1;ammo[2]+=30;pl.wp=2;ex='\n（已装备。按住动作键连射）'},
-   card(){keys.card=1},gkey(){keys.gkey=1;rooms[3].en.push(zb(2,5),zb(1.5,11.5),cr(2.5,7.5));rooms[3].alarm=1;sfx.alarm();setTimeout(()=>{sfx.glass();sfx.sting(.6)},900);ex='\n——刺耳的警报响起，走廊亮起了红灯。\n玻璃碎裂的声音……它们进来了。'}})[i.k]();
-  return msg('获得了「'+IT[i.k][0]+'」。'+ex)}
+  ({ammo(){ammo[0]+=15},shells(){ammo[1]+=6},rammo(){ammo[2]+=30},herb(){herbs++},shotgun(){own[1]=1;ammo[1]+=5;pl.wp=1;ex='\n（장착됨. 근거리에서 위력이 크다）'},rifle(){own[2]=1;ammo[2]+=30;pl.wp=2;ex='\n（장착됨. 액션 키를 누르고 있으면 연사）'},
+   card(){keys.card=1},gkey(){keys.gkey=1;rooms[3].en.push(zb(2,5),zb(1.5,11.5),cr(2.5,7.5));rooms[3].alarm=1;sfx.alarm();setTimeout(()=>{sfx.glass();sfx.sting(.6)},900);ex='\n——귀를 찌르는 경보가 울리고, 복도에 빨간불이 켜졌다.\n유리 깨지는 소리……그것들이 들어왔다.'}})[i.k]();
+  return msg('「'+IT[i.k][0]+'」 획득. '+ex)}
  const d=R.doors.find(o=>near(o,1.4));
  if(d){if(d.key&&!keys[d.key]){sfx.click();return msg(d.lk)}dr={t:0,d};state='door';return}
  const s=R.sp.find(o=>near(o,o.r));if(s)s.f?s.f():msg(s.txt)}
@@ -498,7 +498,7 @@ function update(dt){time+=dt;const w=WP[pl.wp],aim=K.aim;pl.cool-=dt;pl.flash-=d
  for(const p of parts){p.x+=p.vx*dt;p.y+=p.vy*dt;p.z+=p.vz*dt;p.vy-=9*dt;p.t-=dt}parts=parts.filter(p=>p.t>0&&p.y>0);
  if(R.trig)R.trig(R);}
 
-/* ---------- 2D界面 ---------- */
+/* ---------- 2D 인터페이스 ---------- */
 hx.setTransform(2,0,0,2,0,0);
 function tx(s,x,y,c='#ddd',z=12,al='left',f='sans-serif'){hx.font='bold '+z+'px '+f;hx.textAlign=al;hx.fillStyle=c;hx.fillText(s,x,y)}
 function wrap(s,n=24){const o=[];for(const p of s.split('\n'))if(!p)o.push('');else for(let i=0;i<p.length;i+=n)o.push(p.slice(i,i+n));return o}
@@ -513,13 +513,13 @@ const S={
  title(){vn=0;RS=[-99,-99,99,99];for(let x=-4;x<4;x++)for(let z=-4;z<4;z++)quad([x,0,z],[x+1,0,z],[x+1,0,z+1],[x,0,z+1],[0,1,0],[.5,.48,.44],4);
   if(ac&&trk!='dread')music('dread');human({x:0,z:0,a:Math.sin(tm*.5)*.45,ph:0},HK,{arms:-.1});grain();draw3([0,1.8,1.35],[0,1.8,0],[-.7,1.9,1.2],[1.5,1.25,1.05],[.9,2.1,-.9],[3,.25,.15],[.05,.05,.07],[2,8],[0,0,0]);
   const j=rnd()<.04?2:0;tx('DEAD PRECINCT',160+j,78,'#400',31,'center','Georgia,serif');tx('DEAD PRECINCT',159+j,76,'#c11',31,'center','Georgia,serif');
-  tx('亡 城 警 署',160,100,'#ccc',14,'center');if(tm*2&1)tx(touch?'按 ✕ 开始':'PRESS ENTER / J',160,214,'#eee',12,'center');
-  tx('SURVIVAL HORROR DEMO · 本游戏含有暴力与恐怖场面',160,234,'#666',8,'center');
+  tx('죽 은 도 시 의 경 찰 서',160,100,'#ccc',14,'center');if(tm*2&1)tx(touch?'✕ 를 눌러 시작':'ENTER / J 를 눌러 시작',160,214,'#eee',12,'center');
+  tx('SURVIVAL HORROR DEMO · 이 게임에는 폭력과 공포 장면이 포함되어 있습니다',160,234,'#666',8,'center');
   if(Pk.act){try{const s=new SpeechSynthesisUtterance('Dead Precinct');s.lang='en-US';s.pitch=.1;s.rate=.6;speechSynthesis.speak(s)}catch(e){}sfx.slam();state='intro';st=0}},
  intro(){gl.clearColor(0,0,0,1);gl.clear(16640);
-  const done=typed(wrap('199X年，深秋。灰港市。\n\n一种未知的病毒，三天内吞没了整座城市。\n新人巡警林岚，在失联的街头独自醒来。\n\n无线电里只剩最后一句话——\n「所有幸存者……到警署地下车库……」'),st*.6,22,50,'#bbb');
+  const done=typed(wrap('199X년, 늦가을. 회항시.\n\n정체불명의 바이러스가 사흘 만에 도시 전체를 집어삼켰다.\n신입 순경 린란이 연락이 끊긴 거리에서 홀로 눈을 떴다.\n\n무전기에 남은 마지막 말——\n「모든 생존자는……경찰서 지하 주차장으로……」'),st*.6,22,50,'#bbb');
   if(done&&(tm*2&1))tx('▼',300,225,'#fff',10);
-  if(Pk.act){newGame();msg(touch?'【操作】左盘：上下=前进/后退，左右=原地转身\n□ 跑（开关）　R1 举枪（开关，自动瞄准）\n✕ 调查/开门/射击　○ 背包':'【操作】↑↓ 前进/后退　←→ 原地转身\nShift 跑　按住空格 举枪（自动瞄准）\nJ/回车 调查/开门/射击　I 背包')}},
+  if(Pk.act){newGame();msg(touch?'【조작】왼쪽 패드: 상하=전진/후진, 좌우=제자리 회전\n□ 달리기(토글)　R1 조준(토글, 자동 조준)\n✕ 조사/문 열기/사격　○ 가방':'【조작】↑↓ 전진/후진　←→ 제자리 회전\nShift 달리기　스페이스 누르고 있기: 조준(자동 조준)\nJ/엔터 조사/문 열기/사격　I 가방')}},
  play(dt){update(dt);if(state=='play'||state=='msg'||state=='dead'||state=='inv'){view();hud()}},
  msg(dt){mq.t+=dt;view();hud();hx.fillStyle='rgba(0,0,0,.82)';hx.fillRect(0,166,W,74);const more=typed(mq.l,mq.t,14,184,'#eee');
   if(Pk.act){if(!more)mq.t=99;else{state='play';sfx.click();if(mq.cb)mq.cb()}}},
@@ -530,23 +530,23 @@ const S={
   draw3([0,1.4,cz-.6],[0,1.3,10],[0,1.8,cz-.6],[1.6,1.4,1.1],[0,-9,0],[0,0,0],[.03,.03,.03],[1.5,7],[0,0,0]);
   if(t>2.3){sfx.slam();enter(dr.d.to,dr.d.tx,dr.d.tz,dr.d.ta)}},
  inv(){view();hx.fillStyle='rgba(0,0,12,.9)';hx.fillRect(0,0,W,H);hx.strokeStyle='#557';hx.strokeRect(6.5,6.5,307,227);
-  tx('STATUS',14,24,'#99b',12);tx('灰港市警 巡警 林岚',14,40,'#ccc',10);
+  tx('상태',14,24,'#99b',12);tx('회항시경 순경 린란',14,40,'#ccc',10);
   const c=pl.hp>66?'#3f6':pl.hp>33?'#fd3':'#f33';hx.fillStyle='#010';hx.fillRect(14,50,120,50);hx.strokeStyle=c;hx.beginPath();
   for(let x=0;x<120;x++){const p=(x+tm*70)%60,y=75-(p>20&&p<23?18:p>=23&&p<26?-12:p>=26&&p<29?5:0);x?hx.lineTo(14+x,y):hx.moveTo(14,y)}hx.stroke();
-  tx(pl.hp>66?'FINE':pl.hp>33?'CAUTION':'DANGER',74,116,c,12,'center');
-  const L=[];WP.forEach((w,i)=>{if(own[i])L.push([w.n+'  '+ammo[i]+(pl.wp==i?'  [E]':''),()=>{pl.wp=i;sfx.click()}])});
-  if(herbs)L.push(['绿色草药 ×'+herbs,()=>{if(pl.hp<100){pl.hp=Math.min(100,pl.hp+50);herbs--;used++;sfx.heal();isel=0}else sfx.click()}]);
-  if(keys.card)L.push(['蓝色门卡']);if(keys.gkey)L.push(['车库钥匙']);
+  tx(pl.hp>66?'양호':pl.hp>33?'주의':'위험',74,116,c,12,'center');
+  const L=[];WP.forEach((w,i)=>{if(own[i])L.push([w.n+'  '+ammo[i]+(pl.wp==i?'  [장착]':''),()=>{pl.wp=i;sfx.click()}])});
+  if(herbs)L.push(['녹색 약초 ×'+herbs,()=>{if(pl.hp<100){pl.hp=Math.min(100,pl.hp+50);herbs--;used++;sfx.heal();isel=0}else sfx.click()}]);
+  if(keys.card)L.push(['파란색 카드키']);if(keys.gkey)L.push(['차고 열쇠']);
   if(Pk.down)isel++;if(Pk.up)isel--;isel=(isel+L.length)%L.length;
   L.forEach((e,i)=>{if(i==isel)tx('▶',146,54+i*18,'#fff',10);tx(e[0],158,54+i*18,i==isel?'#fff':'#99a',11)});
-  tx('✕/J 使用·装备　　○/I 返回',160,224,'#778',9,'center');
+  tx('✕/J 사용·장착　　○/I 돌아가기',160,224,'#778',9,'center');
   if(Pk.act&&L[isel][1])L[isel][1]();if(Pk.menu)state='play'},
  dead(dt){if(trk)music('');pl.fall=Math.min(1,pl.fall+dt*1.5);for(const e of R.en)if(e.st=='dead')e.fall=Math.min(1,e.fall+dt);view();
-  hx.fillStyle='rgba(90,0,0,'+Math.min(.75,st*.4)+')';hx.fillRect(0,0,W,H);if(st>1.2){tx('你 死 了',160,120,'#e22',30,'center','Georgia,serif');if(st>2.5)tx('按 ✕ / J 重新开始',160,160,'#ccc',10,'center')}
+  hx.fillStyle='rgba(90,0,0,'+Math.min(.75,st*.4)+')';hx.fillRect(0,0,W,H);if(st>1.2){tx('당 신 은 죽 었 다',160,120,'#e22',30,'center','Georgia,serif');if(st>2.5)tx('✕ / J 를 눌러 다시 시작',160,160,'#ccc',10,'center')}
   if(st>2.5&&Pk.act)state='title'},
  end(){if(trk!='safe'){music('safe');setAmb(-1)}gl.clearColor(0,0,0,1);gl.clear(16640);const m=time/60|0,s=(time%60|0),rk=time<420&&used<2?'S':time<600?'A':'B';
-  typed(wrap('林岚踩下油门，警车撞开了车库卷帘门。\n后视镜里，灰港市在晨雾中燃烧。\n\n——她是今晚唯一的幸存者。'),st*.6,22,40,'#bbb');
-  if(st>6){tx('THE END',160,140,'#c11',24,'center','Georgia,serif');tx('通关时间 '+m+'分'+(s<10?'0':'')+s+'秒　击杀 '+kills+'　用药 '+used,160,170,'#ccc',10,'center');tx('评价  '+rk,160,192,'#fd3',16,'center');tx('感谢游玩 · 按 ✕ / J 返回标题',160,222,'#778',9,'center');if(Pk.act)state='title'}}};
+  typed(wrap('린란이 액셀을 밟자 경찰차가 차고 셔터를 부수며 돌진했다.\n백미러 너머로 회항시가 아침 안개 속에서 불타고 있었다.\n\n——그녀는 오늘 밤 유일한 생존자였다.'),st*.6,22,40,'#bbb');
+  if(st>6){tx('THE END',160,140,'#c11',24,'center','Georgia,serif');tx('클리어 시간 '+m+'분'+(s<10?'0':'')+s+'초　처치 '+kills+'　약초 사용 '+used,160,170,'#ccc',10,'center');tx('랭크  '+rk,160,192,'#fd3',16,'center');tx('플레이해 주셔서 감사합니다 · ✕ / J 를 눌러 타이틀로',160,222,'#778',9,'center');if(Pk.act)state='title'}}};
 let last=0;
 function frame(now){const dt=Math.min(.05,(now-last)/1000||0);last=now;tm+=dt;st+=dt;hx.clearRect(0,0,W,H);S[state](dt);shk=Math.max(0,shk-dt*1.5);{const k=shk*7,v=k>.3?'translate('+((rnd()-.5)*k).toFixed(1)+'px,'+((rnd()-.5)*k).toFixed(1)+'px)':'';gc.style.transform=hc.style.transform=v}for(const k in Pk)Pk[k]=0;requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
