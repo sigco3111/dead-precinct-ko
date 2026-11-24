@@ -517,9 +517,9 @@ const S={
   tx('SURVIVAL HORROR DEMO · 폭력 및 공포 장면 포함',160,234,'#666',8,'center');
   if(Pk.act){try{const s=new SpeechSynthesisUtterance('Dead Precinct');s.lang='en-US';s.pitch=.1;s.rate=.6;speechSynthesis.speak(s)}catch(e){}sfx.slam();state='intro';st=0}},
  intro(){gl.clearColor(0,0,0,1);gl.clear(16640);
-  const done=typed(wrap('199X년, 늦가을. 회항시.\n\n정체불명의 바이러스가 사흘 만에 도시 전체를 집어삼켰다.\n신입 순경 린란이 연락이 끊긴 거리에서 홀로 눈을 떴다.\n\n무전기에 남은 마지막 말——\n「모든 생존자는……경찰서 지하 주차장으로……」'),st*.6,22,50,'#bbb');
+  const done=typed(wrap('199X년, 늦가을. 회항시.\n\n정체불명의 바이러스가 사흘 만에 도시 전체를 집어삼켰다.\n신입 순경 린란이 연락이 끊긴 거리에서 홀로 눈을 떴다.\n\n무전기에 남은 마지막 말——\n「생존자는……경찰서 지하 주차장으로……」'),st*.6,22,50,'#bbb');
   if(done&&(tm*2&1))tx('▼',300,225,'#fff',10);
-  if(Pk.act){newGame();msg(touch?'【조작】왼쪽 패드: 상하=전진/후진, 좌우=제자리 회전\n□ 달리기(토글)　R1 조준(토글, 자동 조준)\n✕ 조사/문 열기/사격　○ 가방':'【조작】↑↓ 전진/후진　←→ 제자리 회전\nShift 달리기　스페이스 누르고 있기: 조준(자동 조준)\nJ/엔터 조사/문 열기/사격　I 가방')}},
+  if(Pk.act){newGame();msg(touch?'【조작】왼쪽 패드: 상하=전진/후진, 좌우=제자리 회전\n□ 달리기(토글)　R1 조준(토글, 자동 조준)\n✕ 조사/문 열기/사격　○ 가방':'【조작】↑↓ 전진/후진　←→ 제자리 회전\nShift 달리기　스페이스 길게: 자동 조준\nJ/엔터 조사/문 열기/사격　I 가방')}},
  play(dt){update(dt);if(state=='play'||state=='msg'||state=='dead'||state=='inv'){view();hud()}},
  msg(dt){mq.t+=dt;view();hud();hx.fillStyle='rgba(0,0,0,.82)';hx.fillRect(0,166,W,74);const more=typed(mq.l,mq.t,14,184,'#eee');
   if(Pk.act){if(!more)mq.t=99;else{state='play';sfx.click();if(mq.cb)mq.cb()}}},
